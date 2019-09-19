@@ -3,6 +3,7 @@ let timeCounter = 30;
 let answerCorrect = 0;
 let answerWrong = 0;
 let currentQuestionIndex = 0;
+let guessesCorrect = 0;
 
 // Array of trivia questions
 const triviaArray = [
@@ -66,7 +67,7 @@ function loadQuestion() {
     // clears out previous comments
     questionSlot.innerHTML = '';
     questionSlot.innerHTML += triviaArray[currentQuestionIndex].question;
-    timerSlot.innerHTML += `Timer: ${timeCounter} seconds`;
+    // timerSlot.innerHTML += `Timer: ${timeCounter} seconds`;
 
     loadChoices();
     checkGuess();
@@ -104,12 +105,18 @@ function loadTimer() {
 // function check answer
 function checkGuess() {
 
-    document.addEventListener('click', event => {
-        if(document.body.querySelector('.domchoices[data-answer="bicycle"]')){
-            console.log('hi');
-        }
-        
-    })
+document.addEventListener('click', event => {
+    if(event.target.className==='domchoices'){
+    if(event.target.dataset.answer===triviaArray[currentQuestionIndex].correctAnswer){
+        guessesCorrect++;
+        currentQuestionIndex++;
+        loadQuestion();
+    }else if(event.target.dataset.answer!==triviaArray[currentQuestionIndex].correctAnswer){
+    //    put in functionality to send user to correct answer page with gif
+    }
+}
+})
+    
 }
 document.getElementById('startBtn').addEventListener("click", loadQuestion);
 
