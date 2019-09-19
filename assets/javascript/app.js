@@ -4,6 +4,9 @@ let answerCorrect = 0;
 let answerWrong = 0;
 let currentQuestionIndex = 0;
 let guessesCorrect = 0;
+let timerSlot = document.getElementById('timerSlot');
+let questionSlot = document.getElementById('questionSlot');
+let answerSlot = document.getElementById('answerSlot');
 
 // Array of trivia questions
 const triviaArray = [
@@ -62,8 +65,7 @@ const triviaArray = [
 function loadQuestion() {
     timeCounter = 30;
 
-    let timerSlot = document.getElementById('timerSlot');
-    let questionSlot = document.getElementById('questionSlot');
+
     // clears out previous comments
     questionSlot.innerHTML = '';
     questionSlot.innerHTML += triviaArray[currentQuestionIndex].question;
@@ -76,7 +78,7 @@ function loadQuestion() {
 
 // function to load answer choices
 function loadChoices() {
-    let answerSlot = document.getElementById('answerSlot');
+ 
     let choices = triviaArray[currentQuestionIndex].answers;
 
     // sets answers to empty string to clear previous
@@ -110,7 +112,7 @@ document.addEventListener('click', event => {
     if(event.target.dataset.answer===triviaArray[currentQuestionIndex].correctAnswer){
         guessesCorrect++;
         currentQuestionIndex++;
-        loadQuestion();
+        correctScreen();
     }else if(event.target.dataset.answer!==triviaArray[currentQuestionIndex].correctAnswer){
     //    put in functionality to send user to correct answer page with gif
     }
@@ -118,6 +120,27 @@ document.addEventListener('click', event => {
 })
     
 }
+
+// function to show correct screen
+function correctScreen() {
+    questionSlot.innerHTML = '';
+    answerSlot.innerHTML = '';
+    
+    questionSlot.innerHTML += 'Correct';
+    answerPageTimeFunction();
+}
+
+// timeout function called at the end of correct screen
+function answerPageTimeFunction() {
+setTimeout(() => {
+
+loadQuestion();
+        
+    }, 3500);
+
+}
+
+// initializes firts game 
 document.getElementById('startBtn').addEventListener("click", loadQuestion);
 
 
