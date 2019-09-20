@@ -3,7 +3,6 @@ let timeCounter = 30;
 let answerCorrect = 0;
 let answerWrong = 0;
 let currentQuestionIndex = 0;
-let guessesCorrect = 0;
 let timerSlot = document.getElementById('timerSlot');
 let questionSlot = document.getElementById('questionSlot');
 let answerSlot = document.getElementById('answerSlot');
@@ -66,19 +65,20 @@ function loadQuestion() {
     timeCounter = 30;
 
 
+
     // clears out previous comments
     questionSlot.innerHTML = '';
     questionSlot.innerHTML += triviaArray[currentQuestionIndex].question;
     // timerSlot.innerHTML += `Timer: ${timeCounter} seconds`;
 
     loadChoices();
-    checkGuess();
+    // checkGuess();
 
 };
 
 // function to load answer choices
 function loadChoices() {
- 
+
     let choices = triviaArray[currentQuestionIndex].answers;
 
     // sets answers to empty string to clear previous
@@ -91,10 +91,10 @@ function loadChoices() {
 };
 
 // timer function
-function timerCountdown(){
-  
+function timerCountdown() {
+
     timeCounter--;
-    
+
     timerSlot.innerHTML += `Timer: ${timeCounter} seconds`;
 }
 
@@ -103,39 +103,44 @@ function loadTimer() {
     let timerSlot = document.getElementById('timerSlot');
 }
 
-
-// function check answer
-function checkGuess() {
-
-document.addEventListener('click', event => {
-    if(event.target.className==='domchoices'){
-    if(event.target.dataset.answer===triviaArray[currentQuestionIndex].correctAnswer){
-        guessesCorrect++;
-        currentQuestionIndex++;
-        correctScreen();
-    }else if(event.target.dataset.answer!==triviaArray[currentQuestionIndex].correctAnswer){
-    //    put in functionality to send user to correct answer page with gif
-    }
+// selects next question
+function nextQuestion (){
+    const checkMoreQuestions = (triviaArray.length) -1 === currentQuestionIndex;
+    if(checkMoreQuestions){
+// need to make display result function
+console.log('game over');
+}else{
+    currentQuestionIndex++;
+    loadQuestion();
 }
-})
-    
 }
+
+
 
 // function to show correct screen
 function correctScreen() {
+
     questionSlot.innerHTML = '';
     answerSlot.innerHTML = '';
-    
+
     questionSlot.innerHTML += 'Correct';
     answerPageTimeFunction();
 }
 
+// function displays incorrect screen
+function incorrectScreen() {
+    questionSlot.innerHTML = '';
+    answerSlot.innerHTML = '';
+
+    questionSlot.innerHTML += 'Incorrect';
+    answerPageTimeFunction();
+}
 // timeout function called at the end of correct screen
 function answerPageTimeFunction() {
-setTimeout(() => {
+    setTimeout(() => {
 
-loadQuestion();
-        
+        nextQuestion();
+
     }, 3500);
 
 }
@@ -144,4 +149,18 @@ loadQuestion();
 document.getElementById('startBtn').addEventListener("click", loadQuestion);
 
 
+// code checks page clicks of answer slots
+document.addEventListener('click', event => {
+    if (event.target.className === 'domchoices') {
+        if (event.target.dataset.answer === triviaArray[currentQuestionIndex].correctAnswer) {
+            answerCorrect++;
+            correctScreen();
+          
+        } else if (event.target.dataset.answer !== triviaArray[currentQuestionIndex].correctAnswer) {
+            answerWrong++;
+            incorrectScreen();
+        }
+    } else {
 
+    }
+})
