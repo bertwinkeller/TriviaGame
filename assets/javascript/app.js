@@ -1,7 +1,6 @@
 // Global Variables
 let timeCounter = 30;
 let answerCorrect = 0;
-let answerWrong = 0;
 let currentQuestionIndex = 0;
 let timerSlot = document.getElementById('timerSlot');
 let questionSlot = document.getElementById('questionSlot');
@@ -70,7 +69,7 @@ const triviaArray = [
 
 // function to load question
 function loadQuestion() {
-    timeCounter = 30;
+    
     // clears out previous comments
     questionSlot.innerHTML = '';
     questionSlot.innerHTML += triviaArray[currentQuestionIndex].question;
@@ -95,24 +94,20 @@ function loadChoices() {
 
 };
 
-// timer function
-function timerCountdown() {
 
-    timeCounter--;
 
-    timerSlot.innerHTML += `Timer: ${timeCounter} seconds`;
-}
-
-// function to load timer
-function loadTimer() {
-    let timerSlot = document.getElementById('timerSlot');
-}
 
 // selects next question
 function nextQuestion() {
     const checkMoreQuestions = (triviaArray.length) - 1 === currentQuestionIndex;
     if (checkMoreQuestions) {   
-        console.log('game over');
+        questionSlot.innerHTML = '';
+        answerSlot.innerHTML = '';
+        questionSlot.innerHTML += 'GAME OVER';
+        answerSlot.innerHTML += `Score: ${answerCorrect} out of 8 <br>`;
+        answerSlot.innerHTML += '<button class="btn btn-secondary btn-lg" id="restartbutton" role="button">Restart Game?</button>'
+        
+       
     } else {
         currentQuestionIndex++;
         loadQuestion();
@@ -149,7 +144,7 @@ function answerPageTimeFunction() {
 
         nextQuestion();
 
-    }, 3500);
+    }, 2000);
 
 }
 
@@ -165,10 +160,17 @@ document.addEventListener('click', event => {
             correctScreen();
 
         } else if (event.target.dataset.answer !== triviaArray[currentQuestionIndex].correctAnswer) {
-            answerWrong++;
             incorrectScreen();
         }
     } else {
 
     }
 })
+document.addEventListener('click', event => {
+    if(event.target.id ==='restartbutton'){
+        currentQuestionIndex = 0;
+        answerCorrect = 0;
+        loadQuestion();
+ 
+    }
+});
