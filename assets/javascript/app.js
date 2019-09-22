@@ -1,5 +1,4 @@
 // Global Variables
-let timeCounter = 30;
 let answerCorrect = 0;
 let currentQuestionIndex = 0;
 let timerSlot = document.getElementById('timerSlot');
@@ -97,7 +96,8 @@ function loadChoices() {
 
 
 
-// selects next question
+// selects next question, uses conditional logic to see if the game is over
+// by checking if at the end of the questions array of objects
 function nextQuestion() {
     const checkMoreQuestions = (triviaArray.length) - 1 === currentQuestionIndex;
     if (checkMoreQuestions) {   
@@ -113,12 +113,14 @@ function nextQuestion() {
         loadQuestion();
     }
 }
+
+// function to show correct gif depending on if question is correct or not
 function gif() {
 answerSlot.innerHTML += `<img id='gif' src='${triviaArray[currentQuestionIndex].gif}'>`
 };
 
 
-// function to show correct screen
+// function to show correct screen if chosen answer correct
 function correctScreen() {
 
     questionSlot.innerHTML = '';
@@ -138,6 +140,8 @@ function incorrectScreen() {
     gif();
     answerPageTimeFunction();
 }
+
+
 // timeout function called at the end of correct screen
 function answerPageTimeFunction() {
     setTimeout(() => {
@@ -148,7 +152,7 @@ function answerPageTimeFunction() {
 
 }
 
-// initializes firts game 
+// initializes firts question upon game start
 document.getElementById('startBtn').addEventListener("click", loadQuestion);
 
 
@@ -166,6 +170,8 @@ document.addEventListener('click', event => {
 
     }
 })
+
+// functionality for reset button, returns question index to 0 
 document.addEventListener('click', event => {
     if(event.target.id ==='restartbutton'){
         currentQuestionIndex = 0;
