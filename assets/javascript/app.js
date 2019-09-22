@@ -144,7 +144,7 @@ function answerPageTimeFunction() {
 
         nextQuestion();
 
-    }, 2000);
+    }, 3500);
 
 }
 
