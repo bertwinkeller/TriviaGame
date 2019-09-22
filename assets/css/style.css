@@ -2,3 +2,8 @@
     border: 2px solid black;
     padding: 5px;
 }
+#gif{
+    text-align: center;
+    height: 200px;
+    width: auto;
+}
